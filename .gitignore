@@ -131,3 +131,4 @@ dmypy.json
 # custom
 data/gene_info
 data/genesDb.db
+data/gene_info.csv
