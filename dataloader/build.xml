@@ -1,0 +1,42 @@
+<project name="DataLoaderComponent" default="dist" basedir=".">
+
+    <description>
+        Build process for the data loader component
+    </description>
+
+    <property file="build.properties" />
+
+    <path id="compile.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"></include>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="src" destdir="${build.dir}" classpathref="compile.classpath"/>
+        <!--<javac srcdir="test" destdir="${build.dir}" classpathref="compile.classpath"/>-->
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <delete>
+            <fileset dir="." includes="**/TEST*.xml"/>
+        </delete>
+    </target>
+
+    <target name="dist" depends="compile">
+        <jar destfile="${dist.dir}/${dist.file}_${target.env}_${dist.version}.jar" basedir="${build.dir}">
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="ch.fhnw.mscmi.Loader"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>
