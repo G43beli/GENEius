@@ -8,10 +8,15 @@ import java.util.Properties;
 public class Loader {
 
     public static void main(String [] args) {
+        if (args.length != 1) {
+            System.out.println("USAGE: Loader PROPERTY_FILE");
+            System.exit(1);
+        }
+
         try {
             // getting parameters
             Properties appProps = new Properties();
-            appProps.load(new FileInputStream("app.properties"));
+            appProps.load(new FileInputStream(args[0]));
 
             String hostname = appProps.getProperty("hostname");
             int port = Integer.parseInt(appProps.getProperty("port"));
