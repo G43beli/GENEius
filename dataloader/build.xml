@@ -1,7 +1,7 @@
 <project name="DataLoaderComponent" default="dist" basedir=".">
 
     <description>
-        Build process for the data loader component
+        Apche Ant - Build process for the GENEius data loader component
     </description>
 
     <property file="build.properties" />
@@ -19,7 +19,6 @@
 
     <target name="compile" depends="init">
         <javac srcdir="src" destdir="${build.dir}" classpathref="compile.classpath"/>
-        <!--<javac srcdir="test" destdir="${build.dir}" classpathref="compile.classpath"/>-->
     </target>
 
     <target name="clean">
@@ -37,6 +36,7 @@
                 <attribute name="Main-Class" value="ch.fhnw.mscmi.Loader"/>
             </manifest>
         </jar>
+        <copy file="app_production.properties" todir="${dist.dir}/"/>
     </target>
 
 </project>

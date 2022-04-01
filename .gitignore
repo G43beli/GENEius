@@ -179,3 +179,4 @@ atlassian-ide-plugin.xml
 
 # VS Code
 .vscode/
+build-jar/
