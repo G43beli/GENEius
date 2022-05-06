@@ -1,7 +1,5 @@
 package ch.fhnw.mscmi;
 
-import java.sql.Date;
-
 public class GeneUtil {
 
     public static Gene convert(String [] row) {

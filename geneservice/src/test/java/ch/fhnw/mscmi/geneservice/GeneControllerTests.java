@@ -22,9 +22,9 @@ public class GeneControllerTests {
 
 	@Test
 	public void retrieveGeneByIdTest() throws Exception {
-		ResultActions ra = this.mockMvc.perform(get("/geneservice/byid").param("id", "801529"))
+		ResultActions ra = this.mockMvc.perform(get("/geneservice/byid").param("id", "1"))
 									   .andDo(print())
 									   .andExpect(status().isOk())
-									   .andExpect(jsonPath("$.geneId").value(801529));
+									   .andExpect(jsonPath("$.geneId").value(1));
 	}
 }
