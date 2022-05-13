@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>18</java.version>
 		<junit.version>5.5.2</junit.version>
 		<servlet.version>4.0.1</servlet.version>
 		<mojarra.version>2.2.20</mojarra.version>
@@ -125,6 +125,12 @@
 					<path>/mscmi_geneinfo_webapp</path>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+			</plugin>
+
 		</plugins>
 	</build>
 
