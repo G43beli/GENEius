@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>FHNW - MSCMI - Gene Information Service</title>
+</h:head>
+
+<h:body>
+
+    <p:graphicImage url="logo_fhnw.jpg" height="50px"/>
+    <br/>
+    <h1 class="title ui-widget-header">FHNW - MSCMI - Gene Information Service</h1>
+    <br/>
+    <p:graphicImage url="3393327-200.png" height="200px"/>
+
+
+    <h:form id="inputform">
+        <p:panel id="content">
+            <p:selectOneMenu id="searchoption" value="#{geneService.searchOption}" style="width:250px">
+                <f:selectItem itemLabel="Select Search Option" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{geneService.searchOptions}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="stlbl" value="Search Term"/>
+            <p:inputText id="searchterm" value="#{geneService.searchTerm}" required="true" label="Search Term">
+            </p:inputText>
+
+            <p:commandButton id="retrieveButton" value="Retrieve Data" action="#{geneService.retrieveData()}"
+                             update="datatable"></p:commandButton>
+
+            <p:dataTable id="datatable" var="gene" value="#{geneService.genes}">
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{gene.geneId}"/>
+                </p:column>
+
+                <p:column headerText="Symbol">
+                    <h:outputText value="#{gene.symbol}"/>
+                </p:column>
+
+                <p:column headerText="Synonym">
+                    <h:outputText value="#{gene.synonyms}"/>
+                </p:column>
+
+                <p:column headerText="Type">
+                    <h:outputText value="#{gene.geneType.name}"/>
+                </p:column>
+
+                <p:column headerText="description">
+                    <h:outputText value="#{gene.description}"/>
+                </p:column>
+
+            </p:dataTable>
+        </p:panel>
+        <p:blockUI block="content" trigger="retrieveButton">
+            <p>search in progress</p>
+            <!--<p:graphicImage value="/images/ajax-loader.gif"/>-->
+        </p:blockUI>
+    </h:form>
+
+
+</h:body>
+</html>
