@@ -24,7 +24,7 @@ public class GeneService {
 	private String searchOption;
 	private String searchTerm;
 	private List<Gene> data = new ArrayList<>();
-	private String hostname = "http://localhost:9080";
+	private String hostname = "http://localhost:9090";
 	
 	private final OkHttpClient httpClient;
 	

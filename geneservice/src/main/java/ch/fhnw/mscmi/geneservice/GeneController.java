@@ -1,9 +1,12 @@
 package ch.fhnw.mscmi.geneservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +28,36 @@ public class GeneController {
         return geneService.findById(id);
     }
 
-    @GetMapping("/bysymbol")
-    public List<Gene> getBySymbol(@RequestParam(value = "symbol") String symbol, @RequestParam(value = "pagesize") Integer pagesize, @RequestParam(value = "pagenumber") Integer pagenumber) {
+    @GetMapping("/pagination/{offset}/{pageSize}/bysymbol")
+    public SearchResponse<List<Gene>> getBySymbol(@RequestParam(value = "symbol") String symbol, @PathVariable int offset, @PathVariable int pageSize) {
         logger.debug("GENEius: Endpoint getBySymbol called with parameter: " + symbol);
-        List<Gene> genes = geneService.findBySymbol(symbol, pagenumber, pagesize);
-        return genes;
+        Page<Gene> genes = geneService.findBySymbol(symbol, offset, pageSize);
+        if (genes != null && genes.hasContent()) {
+            return new SearchResponse<>(genes.getSize(), genes.getTotalElements(), genes.getContent());
+        } else {
+            return new SearchResponse<List<Gene>>();
+        }
     }
 
-    @GetMapping("/bydescription")
-    public List<Gene> getByDescription(@RequestParam(value = "description") String description) {
+    @GetMapping("/pagination/{offset}/{pageSize}/bydescription")
+    public SearchResponse<List<Gene>> getByDescription(@RequestParam(value = "description") String description, @PathVariable int offset, @PathVariable int pageSize) {
         logger.debug("GENEius: Endpoint getByDescription called with parameter: " + description);
-        List<Gene> genes = geneService.findByDescription(description);
-        return genes;
+        Page<Gene> genes = geneService.findByDescription(description, offset, pageSize);
+        if (genes != null && genes.hasContent()) {
+            return new SearchResponse<>(genes.getSize(), genes.getTotalElements(), genes.getContent());
+        } else {
+            return new SearchResponse<List<Gene>>();
+        }
+    }
+
+    @GetMapping("/search/{offset}/{pageSize}/{sortField}")
+    public SearchResponse<List<Gene>> searchGenesPaginated(@RequestParam(value = "q") String searchQuery, @PathVariable int offset, @PathVariable int pageSize, @PathVariable String sortField) {
+        logger.debug("GENEius: Endpoint searchGenesPaginated called with search query: " + searchQuery);        
+        Page<Gene> genes = geneService.search(searchQuery, offset, pageSize, sortField);
+        if (genes != null && genes.hasContent()) {
+            return new SearchResponse<>(genes.getSize(), genes.getTotalElements(), genes.getContent());
+        } else {
+            return new SearchResponse<List<Gene>>();
+        }
     }
 }

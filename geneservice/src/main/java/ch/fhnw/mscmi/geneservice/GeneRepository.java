@@ -13,5 +13,9 @@ public interface GeneRepository extends PagingAndSortingRepository<Gene, Integer
 	Page<Gene> findBySymbol(String symbol, Pageable pageable);
 
 	@Query("SELECT t FROM Gene t where t.description like %:description%")
-	List<Gene> findByDescription(String description);
+	Page<Gene> findByDescription(String description, Pageable pageable);
+
+	@Query("SELECT t FROM Gene t where t.symbol = :searchQuery or t.description like %:searchQuery%")
+	Page<Gene> search(String searchQuery, Pageable pageable);
+
 }
