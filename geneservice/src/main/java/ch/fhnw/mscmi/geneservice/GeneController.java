@@ -26,9 +26,9 @@ public class GeneController {
     }
 
     @GetMapping("/bysymbol")
-    public List<Gene> getBySymbol(@RequestParam(value = "symbol") String symbol) {
+    public List<Gene> getBySymbol(@RequestParam(value = "symbol") String symbol, @RequestParam(value = "pagesize") Integer pagesize, @RequestParam(value = "pagenumber") Integer pagenumber) {
         logger.debug("GENEius: Endpoint getBySymbol called with parameter: " + symbol);
-        List<Gene> genes = geneService.findBySymbol(symbol);
+        List<Gene> genes = geneService.findBySymbol(symbol, pagenumber, pagesize);
         return genes;
     }
 
