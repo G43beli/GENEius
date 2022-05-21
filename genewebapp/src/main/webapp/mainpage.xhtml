@@ -18,10 +18,13 @@
     <h1 class="title ui-widget-header">FHNW - MSCMI - Gene Information Service</h1>
     <br/>
     <p:graphicImage url="3393327-200.png" height="200px"/>
-
+    
+    <h:outputText value="#{geneService.totalCount}"/><br/>
 
     <h:form id="inputform">
         <p:panel id="content">
+     
+
             <p:selectOneMenu id="searchoption" value="#{geneService.searchOption}" style="width:250px">
                 <f:selectItem itemLabel="Select Search Option" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{geneService.searchOptions}"/>
@@ -31,8 +34,7 @@
             <p:inputText id="searchterm" value="#{geneService.searchTerm}" required="true" label="Search Term">
             </p:inputText>
 
-            <p:commandButton id="retrieveButton" value="Retrieve Data" action="#{geneService.retrieveData()}"
-                             update="datatable"></p:commandButton>
+            <p:commandButton id="retrieveButton" value="Retrieve Data" action="#{geneService.retrieveData()}" update="datatable"></p:commandButton>
 
             <p:dataTable id="datatable" var="gene" value="#{geneService.genes}">
 
@@ -63,7 +65,8 @@
             <!--<p:graphicImage value="/images/ajax-loader.gif"/>-->
         </p:blockUI>
     </h:form>
-
+    
+    <p>Total Genes with that query: #{geneService.totalCount}</p>
 
 </h:body>
 </html>

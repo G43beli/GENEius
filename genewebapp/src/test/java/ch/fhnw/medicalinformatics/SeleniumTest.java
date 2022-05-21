@@ -18,9 +18,7 @@ public class SeleniumTest {
 		WebDriver driver = new ChromeDriver();
 
 		driver.get(TestSettings.URL);
-		
-		String pageTitle = driver.getTitle();
-		
+				
 		WebElement soDropdown = driver.findElement(By.id("inputform:searchoption_input"));
 		WebElement stInput = driver.findElement(By.id("inputform:searchterm"));
 		WebElement retrieveButton = driver.findElement(By.id("inputform:retrieveButton"));

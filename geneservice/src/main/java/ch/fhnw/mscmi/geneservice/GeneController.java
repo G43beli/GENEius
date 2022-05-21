@@ -28,8 +28,8 @@ public class GeneController {
         return geneService.findById(id);
     }
 
-    @GetMapping("/pagination/{offset}/{pageSize}/bysymbol")
-    public SearchResponse<List<Gene>> getBySymbol(@RequestParam(value = "symbol") String symbol, @PathVariable int offset, @PathVariable int pageSize) {
+    @GetMapping("/bysymbol")
+    public SearchResponse<List<Gene>> getBySymbol(@RequestParam(value = "symbol") String symbol, @RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
         logger.debug("GENEius: Endpoint getBySymbol called with parameter: " + symbol);
         Page<Gene> genes = geneService.findBySymbol(symbol, offset, pageSize);
         if (genes != null && genes.hasContent()) {
@@ -39,8 +39,8 @@ public class GeneController {
         }
     }
 
-    @GetMapping("/pagination/{offset}/{pageSize}/bydescription")
-    public SearchResponse<List<Gene>> getByDescription(@RequestParam(value = "description") String description, @PathVariable int offset, @PathVariable int pageSize) {
+    @GetMapping("/bydescription")
+    public SearchResponse<List<Gene>> getByDescription(@RequestParam(value = "description") String description, @RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
         logger.debug("GENEius: Endpoint getByDescription called with parameter: " + description);
         Page<Gene> genes = geneService.findByDescription(description, offset, pageSize);
         if (genes != null && genes.hasContent()) {
@@ -50,8 +50,8 @@ public class GeneController {
         }
     }
 
-    @GetMapping("/search/{offset}/{pageSize}/{sortField}")
-    public SearchResponse<List<Gene>> searchGenesPaginated(@RequestParam(value = "q") String searchQuery, @PathVariable int offset, @PathVariable int pageSize, @PathVariable String sortField) {
+    @GetMapping("/search")
+    public SearchResponse<List<Gene>> searchGenesPaginated(@RequestParam(value = "q") String searchQuery, @PathVariable(value = "offset") int offset, @PathVariable(value = "pageSize") int pageSize, @PathVariable(value = "sortField") String sortField) {
         logger.debug("GENEius: Endpoint searchGenesPaginated called with search query: " + searchQuery);        
         Page<Gene> genes = geneService.search(searchQuery, offset, pageSize, sortField);
         if (genes != null && genes.hasContent()) {

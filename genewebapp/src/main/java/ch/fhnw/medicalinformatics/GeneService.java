@@ -12,6 +12,8 @@ import javax.faces.event.NamedEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.primefaces.application.resource.barcode.EAN13Generator;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -24,6 +26,7 @@ public class GeneService {
 	private String searchOption;
 	private String searchTerm;
 	private List<Gene> data = new ArrayList<>();
+	private long totalCount;
 	private String hostname = "http://localhost:9090";
 	
 	private final OkHttpClient httpClient;
@@ -44,6 +47,14 @@ public class GeneService {
 		return result;
 	}	
 	
+	public long getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
+	}
+
 	public String getSearchOption() {
 		return searchOption;
 	}
@@ -69,9 +80,9 @@ public class GeneService {
 		if (searchOption.toUpperCase().contains("ID")) {
 			serviceCall = "/geneservice/byid?id=" + searchTerm;
 		} else if (searchOption.toUpperCase().contains("SYMBOL")) {
-			serviceCall = "/geneservice/bysymbol?symbol=" + searchTerm;
+			serviceCall = "/geneservice/bysymbol?symbol=" + searchTerm + "&offset=0&pageSize=10";
 		} else if (searchOption.toUpperCase().contains("DESCRIPTION")) {
-			serviceCall = "/geneservice/bydescription?description=" + searchTerm;
+			serviceCall = "/geneservice/bydescription?description=" + searchTerm + "&offset=0&pageSize=10";
 		} else {
 			System.out.println("invalid search");
 			// TODO: Exception Handling
@@ -88,9 +99,14 @@ public class GeneService {
 				resultType = new TypeToken<Gene>() {}.getType();
 				Gene sg = g.fromJson(response.body().string(), resultType);
 				data.add(sg);
+				totalCount = data.size();
 			} else {
-				resultType = new TypeToken<List<Gene>>() {}.getType();
-				data = g.fromJson(response.body().string(), resultType);
+				resultType = new TypeToken<GeneSearchResponse>() {}.getType();
+				GeneSearchResponse sr = g.fromJson(response.body().string(), resultType);
+				for(Gene gene : sr.getResponse()) {
+					data.add(gene);
+				}				
+				totalCount = sr.getTotalCount();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

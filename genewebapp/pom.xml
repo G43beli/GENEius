@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 		<junit.version>5.5.2</junit.version>
 		<servlet.version>4.0.1</servlet.version>
 		<mojarra.version>2.2.20</mojarra.version>
