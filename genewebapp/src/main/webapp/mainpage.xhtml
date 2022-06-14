@@ -9,21 +9,19 @@
 
 <h:head>
     <title>FHNW - MSCMI - Gene Information Service</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"></link>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <h:outputStylesheet library="css" name="css/main.css" />
 </h:head>
 
 <h:body>
 
-    <p:graphicImage url="logo_fhnw.jpg" height="50px"/>
-    <br/>
-    <h1 class="title ui-widget-header">FHNW - MSCMI - Gene Information Service</h1>
-    <br/>
-    <p:graphicImage url="3393327-200.png" height="200px"/>
-    
-    <h:outputText value="#{geneService.totalCount}"/><br/>
+    <p:graphicImage url="logo_geneius.jpg" height="100px"/>
 
     <h:form id="inputform">
         <p:panel id="content">
-     
 
             <p:selectOneMenu id="searchoption" value="#{geneService.searchOption}" style="width:250px">
                 <f:selectItem itemLabel="Select Search Option" itemValue="" noSelectionOption="true"/>
@@ -34,7 +32,7 @@
             <p:inputText id="searchterm" value="#{geneService.searchTerm}" required="true" label="Search Term">
             </p:inputText>
 
-            <p:commandButton id="retrieveButton" value="Retrieve Data" action="#{geneService.retrieveData()}" update="datatable"></p:commandButton>
+            <p:commandButton styleClass="styleOrange" id="retrieveButton" value="Retrieve Data" action="#{geneService.retrieveData()}" update="datatable, totalCountText"></p:commandButton>
 
             <p:dataTable id="datatable" var="gene" value="#{geneService.genes}">
 
@@ -65,8 +63,8 @@
             <!--<p:graphicImage value="/images/ajax-loader.gif"/>-->
         </p:blockUI>
     </h:form>
-    
-    <p>Total Genes with that query: #{geneService.totalCount}</p>
+
+    <p>Total amount of genes: <h:outputText id="totalCountText" value="#{geneService.totalCount}"/></p>
 
 </h:body>
 </html>

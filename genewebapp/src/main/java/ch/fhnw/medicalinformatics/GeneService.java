@@ -12,8 +12,6 @@ import javax.faces.event.NamedEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.primefaces.application.resource.barcode.EAN13Generator;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -26,7 +24,7 @@ public class GeneService {
 	private String searchOption;
 	private String searchTerm;
 	private List<Gene> data = new ArrayList<>();
-	private long totalCount;
+	private long totalCount = 0; 	
 	private String hostname = "http://localhost:9090";
 	
 	private final OkHttpClient httpClient;
@@ -47,14 +45,6 @@ public class GeneService {
 		return result;
 	}	
 	
-	public long getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(long totalCount) {
-		this.totalCount = totalCount;
-	}
-
 	public String getSearchOption() {
 		return searchOption;
 	}
@@ -69,6 +59,10 @@ public class GeneService {
 
 	public void setSearchTerm(String searchTerm) {
 		this.searchTerm = searchTerm;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
 	}
 
 	public void retrieveData() {
@@ -105,8 +99,8 @@ public class GeneService {
 				GeneSearchResponse sr = g.fromJson(response.body().string(), resultType);
 				for(Gene gene : sr.getResponse()) {
 					data.add(gene);
-				}				
-				totalCount = sr.getTotalCount();
+				}			
+				this.setTotalCount(sr.getTotalCount());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -115,5 +109,9 @@ public class GeneService {
 	
 	public List<Gene> getGenes() {
 		return data;
+	}
+
+	public long getTotalCount() {
+		return totalCount;
 	}
 }
