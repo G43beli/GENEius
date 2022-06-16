@@ -24,27 +24,27 @@ public class GeneService {
 	private String searchOption;
 	private String searchTerm;
 	private List<Gene> data = new ArrayList<>();
-	private long totalCount = 0; 	
+	private long totalCount = 0;
 	private String hostname = "http://localhost:9090";
-	
+
 	private final OkHttpClient httpClient;
-	
+
 	public GeneService() {
 		httpClient = new OkHttpClient.Builder()
-			      .connectTimeout(180, TimeUnit.SECONDS)
-			      .readTimeout(180, TimeUnit.SECONDS)
-			      .writeTimeout(180, TimeUnit.SECONDS)
-			      .build();
+				.connectTimeout(180, TimeUnit.SECONDS)
+				.readTimeout(180, TimeUnit.SECONDS)
+				.writeTimeout(180, TimeUnit.SECONDS)
+				.build();
 	}
-	
+
 	public List<String> getSearchOptions() {
 		List<String> result = new ArrayList<String>();
 		result.add("Search by ID");
 		result.add("Search by Symbol");
-		result.add("search by Description");
+		result.add("Search by Description");
 		return result;
-	}	
-	
+	}
+
 	public String getSearchOption() {
 		return searchOption;
 	}
@@ -52,7 +52,7 @@ public class GeneService {
 	public void setSearchOption(String searchOption) {
 		this.searchOption = searchOption;
 	}
-	
+
 	public String getSearchTerm() {
 		return searchTerm;
 	}
@@ -81,32 +81,32 @@ public class GeneService {
 			System.out.println("invalid search");
 			// TODO: Exception Handling
 		}
-		
+
 		System.out.println("URL: " + hostname + serviceCall);
-		
+
 		request = new Request.Builder().url(hostname + serviceCall).build();
-		
+
 		try (Response response = httpClient.newCall(request).execute()) {
 			Gson g = new Gson();
 			Type resultType = null;
-			if (searchOption.toUpperCase().contains("ID")) {
-				resultType = new TypeToken<Gene>() {}.getType();
-				Gene sg = g.fromJson(response.body().string(), resultType);
-				data.add(sg);
-				totalCount = data.size();
+			if (false){//searchOption.toUpperCase().contains("ID")) {
+				// resultType = new TypeToken<Gene>() {}.getType();
+				// Gene sg = g.fromJson(response.body().string(), resultType);
+				// data.add(sg);
+				// totalCount = data.size();
 			} else {
 				resultType = new TypeToken<GeneSearchResponse>() {}.getType();
 				GeneSearchResponse sr = g.fromJson(response.body().string(), resultType);
-				for(Gene gene : sr.getResponse()) {
+				for (Gene gene : sr.getResponse()) {
 					data.add(gene);
-				}			
+				}
 				this.setTotalCount(sr.getTotalCount());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public List<Gene> getGenes() {
 		return data;
 	}
