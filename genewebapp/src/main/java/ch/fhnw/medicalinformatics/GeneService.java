@@ -45,6 +45,23 @@ public class GeneService {
 		return result;
 	}
 
+	public boolean getIsApiRunning() {
+		Request request = null;
+		String serviceCall = "/geneservice/health-check";
+		request = new Request.Builder().url(hostname + serviceCall).build();
+		boolean isRunning = false;
+		try (Response response = httpClient.newCall(request).execute()) {
+			Gson g = new Gson();
+			Type resultType = null;
+			resultType = new TypeToken<String>() {}.getType();
+			String result = g.fromJson(response.body().string(), resultType);
+		    isRunning = "OK".equals(result);
+		} catch (Exception ex) {
+			isRunning = false;
+		}
+		return isRunning;
+	}
+
 	public String getSearchOption() {
 		return searchOption;
 	}
@@ -79,29 +96,19 @@ public class GeneService {
 			serviceCall = "/geneservice/bydescription?description=" + searchTerm + "&offset=0&pageSize=10";
 		} else {
 			System.out.println("invalid search");
-			// TODO: Exception Handling
 		}
-
-		System.out.println("URL: " + hostname + serviceCall);
 
 		request = new Request.Builder().url(hostname + serviceCall).build();
 
 		try (Response response = httpClient.newCall(request).execute()) {
 			Gson g = new Gson();
 			Type resultType = null;
-			if (false){//searchOption.toUpperCase().contains("ID")) {
-				// resultType = new TypeToken<Gene>() {}.getType();
-				// Gene sg = g.fromJson(response.body().string(), resultType);
-				// data.add(sg);
-				// totalCount = data.size();
-			} else {
-				resultType = new TypeToken<GeneSearchResponse>() {}.getType();
-				GeneSearchResponse sr = g.fromJson(response.body().string(), resultType);
-				for (Gene gene : sr.getResponse()) {
-					data.add(gene);
-				}
-				this.setTotalCount(sr.getTotalCount());
+			resultType = new TypeToken<GeneSearchResponse>() {}.getType();
+			GeneSearchResponse sr = g.fromJson(response.body().string(), resultType);
+			for (Gene gene : sr.getResponse()) {
+				data.add(gene);
 			}
+			this.setTotalCount(sr.getTotalCount());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

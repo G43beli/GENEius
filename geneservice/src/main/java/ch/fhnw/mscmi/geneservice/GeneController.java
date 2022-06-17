@@ -22,6 +22,11 @@ public class GeneController {
 
     private static final Logger logger = LoggerFactory.getLogger(GeneserviceApplication.class);
 
+    @GetMapping("/health-check")
+    public String health() {
+        return "OK";
+    }
+
     @GetMapping("/byid")
     public Gene getById(@RequestParam(value = "id") Integer id) {
         logger.debug("GENEius: Endpoint getById called with parameter: " + id);
@@ -51,9 +56,17 @@ public class GeneController {
     }
 
     @GetMapping("/search")
-    public SearchResponse<List<Gene>> searchGenesPaginated(@RequestParam(value = "q") String searchQuery, @PathVariable(value = "offset") int offset, @PathVariable(value = "pageSize") int pageSize, @PathVariable(value = "sortField") String sortField) {
-        logger.debug("GENEius: Endpoint searchGenesPaginated called with search query: " + searchQuery);        
-        Page<Gene> genes = geneService.search(searchQuery, offset, pageSize, sortField);
+    public SearchResponse<List<Gene>> searchGenesPaginated(@RequestParam(value = "q") String searchQuery, @RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
+        logger.debug("GENEius: Endpoint searchGenesPaginated called with search query: " + searchQuery); 
+        
+        int intSearchQuery;
+        try {
+            intSearchQuery =  Integer.parseInt(searchQuery);
+        } catch (NumberFormatException e) {
+            intSearchQuery = 0;
+        }
+
+        Page<Gene> genes = geneService.search(searchQuery, intSearchQuery, offset, pageSize);
         if (genes != null && genes.hasContent()) {
             return new SearchResponse<>(genes.getSize(), genes.getTotalElements(), genes.getContent());
         } else {

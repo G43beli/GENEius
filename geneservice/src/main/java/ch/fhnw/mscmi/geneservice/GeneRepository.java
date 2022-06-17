@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface GeneRepository extends PagingAndSortingRepository<Gene, Integer> {
 
@@ -15,7 +16,8 @@ public interface GeneRepository extends PagingAndSortingRepository<Gene, Integer
 	@Query("SELECT t FROM Gene t where t.description like %:description%")
 	Page<Gene> findByDescription(String description, Pageable pageable);
 
-	@Query("SELECT t FROM Gene t where t.symbol = :searchQuery or t.description like %:searchQuery%")
-	Page<Gene> search(String searchQuery, Pageable pageable);
-
+	@Query(value="SELECT * FROM allgenes where allgenes.gene_id = :intSearchQuery or allgenes.symbol = :searchQuery", 
+	       countQuery = "select count(*) FROM allgenes where allgenes.gene_id = :intSearchQuery or allgenes.symbol = :searchQuery", 
+	       nativeQuery=true)
+	Page<Gene> search(@Param("searchQuery") String searchQuery, @Param("intSearchQuery") int intSearchQuery, Pageable pageable);
 }

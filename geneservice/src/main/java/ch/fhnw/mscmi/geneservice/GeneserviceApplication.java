@@ -17,5 +17,4 @@ public class GeneserviceApplication {
 		logger.info("GENEius: Application is starting!");
 		SpringApplication.run(GeneserviceApplication.class, args);
 	}
-
 }

@@ -27,7 +27,7 @@ public class GeneService {
         return geneRepository.findByDescription(description, PageRequest.of(offset, pageSize));
     }
 
-    public Page<Gene> search(String searchQuery, int offset, int pageSize, String sortField) {
-        return geneRepository.search(searchQuery, PageRequest.of(offset, pageSize).withSort(Sort.by(sortField)));
+    public Page<Gene> search(String searchQuery, int intSearchQuery, int offset, int pageSize) {
+        return geneRepository.search(searchQuery, intSearchQuery, PageRequest.of(offset, pageSize));
     }
 }
