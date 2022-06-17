@@ -1,7 +1,6 @@
 package ch.fhnw.mscmi.geneservice;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

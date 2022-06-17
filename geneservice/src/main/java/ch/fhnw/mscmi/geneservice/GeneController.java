@@ -1,12 +1,11 @@
 package ch.fhnw.mscmi.geneservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,17 +22,20 @@ public class GeneController {
     private static final Logger logger = LoggerFactory.getLogger(GeneserviceApplication.class);
 
     @GetMapping("/health-check")
+    @CrossOrigin
     public String health() {
         return "OK";
     }
 
     @GetMapping("/byid")
+    @CrossOrigin
     public Gene getById(@RequestParam(value = "id") Integer id) {
         logger.debug("GENEius: Endpoint getById called with parameter: " + id);
         return geneService.findById(id);
     }
 
     @GetMapping("/bysymbol")
+    @CrossOrigin
     public SearchResponse<List<Gene>> getBySymbol(@RequestParam(value = "symbol") String symbol, @RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
         logger.debug("GENEius: Endpoint getBySymbol called with parameter: " + symbol);
         Page<Gene> genes = geneService.findBySymbol(symbol, offset, pageSize);
@@ -45,6 +47,7 @@ public class GeneController {
     }
 
     @GetMapping("/bydescription")
+    @CrossOrigin
     public SearchResponse<List<Gene>> getByDescription(@RequestParam(value = "description") String description, @RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
         logger.debug("GENEius: Endpoint getByDescription called with parameter: " + description);
         Page<Gene> genes = geneService.findByDescription(description, offset, pageSize);
