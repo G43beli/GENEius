@@ -49,7 +49,7 @@
 
             <div>
                 <div class="row mb-3">
-                    <label class="fw-bold col-sm-2 col-form-label">Search option</label>
+                    <label class="fw-bold col-sm-2 col-form-label">Search option:</label>
                     <div class="col-sm-10">
                         <h:selectOneMenu id="searchoption" styleClass="form-select" value="#{geneService.searchOption}" style="width:250px">
                             <f:selectItem itemLabel="Select Search Option" itemValue="" noSelectionOption="true"/>
@@ -58,13 +58,26 @@
                     </div>
                   </div>
                   <div class="row mb-3">
-                    <label class="fw-bold col-sm-2 col-form-label">Search term</label>
+                    <label class="fw-bold col-sm-2 col-form-label">Search term:</label>
                     <div class="col-sm-10">
                         <h:inputText id="searchterm" styleClass="form-control" value="#{geneService.searchTerm}" required="true" label="Search Term"></h:inputText>
                     </div>
                   </div>              
                 <p:commandButton styleClass="btn btn-primary mb-4 w-100" id="retrieveButton" value="Search" action="#{geneService.retrieveData()}" update="datatable, totalCountText"></p:commandButton>
-            </div>       
+            </div>    
+            
+            <c:choose>
+                <c:when test="#{geneService.isApiRunning}">
+                    <div class="alert alert-success mt-4" role="alert">
+                        The API is running!
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-danger mt-4" role="alert">
+                        The API is not running!
+                    </div>
+                </c:otherwise>
+            </c:choose>
             
             <p><strong>Total amount of genes: </strong> <h:outputText id="totalCountText" value="#{geneService.totalCount}"/></p>
 
@@ -73,6 +86,10 @@
                 <p:column headerText="Id">
                     <h:outputText value="#{gene.geneId}"/>
                 </p:column>
+                
+                <p:column headerText="TaxId">
+                    <h:outputText value="#{gene.taxId}"/>
+                </p:column>               
 
                 <p:column headerText="Symbol">
                     <h:outputText value="#{gene.symbol}"/>
@@ -96,19 +113,7 @@
             <p>search in progress</p>
             <p:graphicImage value="ajax-loader.gif"/>
         </p:blockUI>
-    </h:form>
-    <c:choose>
-        <c:when test="#{geneService.isApiRunning}">
-            <div class="alert alert-success mt-4" role="alert">
-                The API is running!
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="alert alert-danger mt-4" role="alert">
-                The API is not running!
-            </div>
-        </c:otherwise>
-    </c:choose>
+    </h:form>    
 </div>
 </h:body>
 </html>

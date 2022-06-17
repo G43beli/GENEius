@@ -15,6 +15,9 @@ public class Gene {
 	@Id
 	@Column(name = "gene_id")
 	private int geneId;
+
+	@Column(name = "tax_id")
+	private int taxId;
 	
 	@Column(name = "symbol")
 	private String symbol;
@@ -62,6 +65,14 @@ public class Gene {
 
 	public void setGeneId(int geneId) {
 		this.geneId = geneId;
+	}
+
+	public int getTaxId() {
+		return taxId;
+	}
+
+	public void setTaxId(int taxId) {
+		this.taxId = taxId;
 	}
 
 	public String getSymbol() {

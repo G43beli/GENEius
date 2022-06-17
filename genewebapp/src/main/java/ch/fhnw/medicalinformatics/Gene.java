@@ -3,6 +3,8 @@ package ch.fhnw.medicalinformatics;
 public class Gene {
 
 	private int geneId;
+
+	private int taxId;
 	
 	private String symbol;
 	
@@ -36,6 +38,14 @@ public class Gene {
 
 	public void setGeneId(int geneId) {
 		this.geneId = geneId;
+	}
+	
+	public int getTaxId() {
+		return taxId;
+	}
+
+	public void setTaxId(int taxId) {
+		this.taxId = taxId;
 	}
 
 	public String getSymbol() {
