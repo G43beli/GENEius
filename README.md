@@ -11,7 +11,7 @@ Place the downloaded tsv file in the root folder of this project into a folder c
 This repository will hold the projects for the different exercises in the module "Medical Software Development".  
 
 ### System landscape
-![SystemLandscape](docs/SystemLandscape/SystemLandscape.png)
+![SystemLandscape](docs/SystemLandscape/SystemLandscape.jpg)
 
 ### Projects
 - dataanalyzer
