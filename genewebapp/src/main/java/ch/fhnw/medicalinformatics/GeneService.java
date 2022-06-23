@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.NamedEvent;
@@ -18,7 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 @NamedEvent
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "geneService")
 public class GeneService {
 
@@ -62,9 +62,7 @@ public class GeneService {
 		return isRunning;
 	}
 
-	public void retrieveData(boolean reset) {
-		System.out.println("retrieve data");
-		
+	public void retrieveData(boolean reset) {		
 		pages.clear();
 		data.clear();
 		
@@ -97,8 +95,8 @@ public class GeneService {
 				data.add(gene);
 			}
 			this.setTotalCount(sr.getTotalCount());
-			int maxPages = (int) Math.ceil((double) (this.totalCount / maxTblRows));
-			for (int i = 1; i <= maxPages; i++) {
+			int maxPages = (int) Math.ceil((double) (sr.getTotalCount() / maxTblRows));
+			for (int i = 1; i <= maxPages + 1; i++) {
 				pages.add(i);
 			}
 			handlePagination();

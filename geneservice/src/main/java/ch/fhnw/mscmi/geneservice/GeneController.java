@@ -1,5 +1,6 @@
 package ch.fhnw.mscmi.geneservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,16 @@ public class GeneController {
 
     @GetMapping("/byid")
     @CrossOrigin
-    public Gene getById(@RequestParam(value = "id") Integer id) {
+    public SearchResponse<List<Gene>> getById(@RequestParam(value = "id") Integer id) {
         logger.debug("GENEius: Endpoint getById called with parameter: " + id);
-        return geneService.findById(id);
+        Gene gene = geneService.findById(id);
+        if (gene != null) {
+            ArrayList<Gene> singleItemList = new ArrayList<Gene>();
+            singleItemList.add(0, gene);
+            return new SearchResponse<List<Gene>>(1, 1, singleItemList);
+        } else {
+            return new SearchResponse<List<Gene>>();
+        }
     }
 
     @GetMapping("/bysymbol")

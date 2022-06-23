@@ -38,25 +38,14 @@
           box-shadow: -5px 4px 35px 13px rgb(5 0 0 / 20%);
           padding: 30px;
         }
-        /* .table {
-          border-collapse: collapse;
-          border: 1px solid #000;
-          margin: 10px;
+        .ui-state-default.btn,
+        .ui-widget-content .ui-state-default.btn {
+          color: #fff;
+          background: #0d6efd;
+          border: none;
+          background-color: #0d6efd;
+          text-shadow: none;
         }
-        .tableHeader {
-          text-align: center;
-          background-color: #b5b5b5;
-          border-bottom: 1px solid #000;
-          padding: 2px;
-        }
-        .tableRowOdd {
-          text-align: center;
-          background: #fff;
-        }
-        .tableRowEven {
-          text-align: center;
-          background-color: #d3d3d3;
-        } */
         .footerBtn {
           margin-right: 5px;
           margin-left: 5px;
@@ -64,6 +53,12 @@
         tfoot {
           text-align: center;
           border-top: 1px solid #000;
+        }
+        #inputform table th {
+          background: #0d6efd;
+          color: #fff;
+          text-shadow: none;
+          font-weight: 400;
         }
       </style>
     </f:facet>
@@ -144,10 +139,9 @@
           <c:choose>
             <c:when test="#{geneService.totalCount > 0}">
               <p>
-                <strong>Total amount of genes found: </strong>
                 <h:outputText
                   id="totalCountText"
-                  value="#{geneService.totalCount}"
+                  value="Total amount of genes found: #{geneService.totalCount}"
                 />
               </p>
             </c:when>
@@ -156,7 +150,11 @@
             </c:otherwise>
           </c:choose>
 
-          <p:dataTable id="datatable" var="gene" value="#{geneService.genes}">
+          <p:dataTable
+            id="datatable"
+            var="gene"
+            value="#{geneService.genes}"
+          >
             <p:column headerText="Id">
               <h:outputText value="#{gene.geneId}" />
             </p:column>
@@ -172,48 +170,54 @@
             <p:column headerText="Synonym">
               <h:outputText value="#{gene.synonyms}" />
             </p:column>
-            <p:column headerText="description">
+            <p:column headerText="Description">
               <h:outputText value="#{gene.description}" />
             </p:column>
             <f:facet name="footer">
-              <h:panelGroup>
-                <h:commandButton
-                  id="previousPageButton"
-                  value="Previous"
-                  rendered="#{geneService.displayPreviousPageBtn}"
-                >
-                  <f:ajax
-                    listener="#{geneService.previousPage}"
-                    render="@form"
-                  />
-                </h:commandButton>
-                <h:selectOneMenu
-                  id="selectOneMenePages"
-                  value="#{geneService.selectedPage}"
-                >
-                  <f:selectItems
-                    value="#{geneService.pages}"
-                    var="page"
-                    itemLabel="Page #{page}"
-                    itemValue="#{page}"
-                  />
-                  <f:ajax listener="#{geneService.pageChange}" render="@form" />
-                </h:selectOneMenu>
-                <h:commandButton
-                  id="nextPageButton"
-                  value="Next"
-                  rendered="#{geneService.displayNextPageBtn}"
-                >
-                  <f:ajax listener="#{geneService.nextPage}" render="@form" />
-                </h:commandButton>
-              </h:panelGroup>
+              <div class="justify-content-center d-flex clearfix">
+                <h:panelGroup>
+                  <h:commandButton
+                    id="previousPageButton"
+                    value="Previous"
+                    rendered="#{geneService.displayPreviousPageBtn}"
+                    styleClass="btn btn-primary mr-1 float-start"
+                  >
+                    <f:ajax
+                      listener="#{geneService.previousPage}"
+                      render="@form"
+                    />
+                  </h:commandButton>
+                  <h:selectOneMenu
+                    id="selectOneMenePages"
+                    value="#{geneService.selectedPage}"
+                    rendered="#{geneService.pages.size() > 0}"
+                    styleClass="w-auto form-select float-start"
+                  >
+                    <f:selectItems
+                      value="#{geneService.pages}"
+                      var="page"
+                      itemLabel="Page #{page}"
+                      itemValue="#{page}"
+                    />
+                    <f:ajax
+                      listener="#{geneService.pageChange}"
+                      render="@form"
+                    />
+                  </h:selectOneMenu>
+                  <h:commandButton
+                    id="nextPageButton"
+                    value="Next"
+                    rendered="#{geneService.displayNextPageBtn}"
+                    styleClass="btn btn-primary ml-1 float-start"
+                  >
+                    <f:ajax listener="#{geneService.nextPage}" render="@form" />
+                  </h:commandButton>
+                </h:panelGroup>
+              </div>
             </f:facet>
           </p:dataTable>
         </p:panel>
-        <p:blockUI
-          block="content"
-          trigger="retrieveButton"
-        >
+        <p:blockUI block="content" trigger="retrieveButton">
           <p>search in progress</p>
           <p:graphicImage value="ajax-loader.gif" />
         </p:blockUI>
