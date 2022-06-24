@@ -145,7 +145,7 @@ const GeneList = () => {
                       <Col xs={4}>
                         <img
                           alt="gene"
-                          height={85}
+                          className="geneExampleImage"
                           src={`/gene_images/gene${(index % 7) + 1}.jpg`}
                         />
                       </Col>
